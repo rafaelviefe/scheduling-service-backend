@@ -33,6 +33,14 @@ public class Scheduling {
     private String message;
 
     @NotNull
-    private String communicationType;
+    @Enumerated(EnumType.STRING)
+    private CommunicationType communicationType;
+
+    public enum CommunicationType {
+        EMAIL,
+        SMS,
+        PUSH,
+        WHATSAPP
+    }
 
 }
