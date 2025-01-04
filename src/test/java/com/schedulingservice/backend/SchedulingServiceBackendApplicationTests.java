@@ -81,8 +81,46 @@ class SchedulingServiceBackendApplicationTests {
 				.expectStatus().isNotFound();
 	}
 
+	@Sql("/inserts.sql")
 	@Test
-	void contextLoads() {
+	void testUpdateScheduleSuccess() {
+		var schedule = new Schedule(
+				SCHEDULE.getId(),
+				SCHEDULE.getScheduledDateTime(),
+				SCHEDULE.getRecipient(),
+				SCHEDULE.getMessage() + "new",
+				SCHEDULE.getCommunicationType());
+
+		webTestClient
+				.put().uri("/schedules/" + SCHEDULE.getId())
+				.bodyValue(schedule)
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("$").isArray()
+				.jsonPath("$.length()").isEqualTo(4)
+				.jsonPath("$[0].scheduledDateTime").isEqualTo(schedule.getScheduledDateTime())
+				.jsonPath("$[0].recipient").isEqualTo(schedule.getRecipient())
+				.jsonPath("$[0].message").isEqualTo(schedule.getMessage())
+				.jsonPath("$[0].communicationType").isEqualTo(schedule.getCommunicationType());
+	}
+
+	@Test
+	void testUpdateScheduleFailure() {
+		UUID nonExistentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174009");
+
+		webTestClient
+				.put()
+				.uri("/schedules/" + nonExistentId)
+				.bodyValue(
+						new Schedule(
+								nonExistentId, LocalDateTime.parse("2025-01-06T13:59:00"),
+								"test", "test", Schedule.CommunicationType.SMS
+						)
+				).exchange()
+				.expectStatus().isNotFound();
+	}
+
 	}
 
 }
