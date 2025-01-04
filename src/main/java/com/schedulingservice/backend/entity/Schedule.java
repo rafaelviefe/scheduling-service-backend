@@ -39,6 +39,13 @@ public class Schedule {
     public Schedule() {
     }
 
+    public Schedule(LocalDateTime scheduledDateTime, String recipient, String message, CommunicationType communicationType) {
+        this.scheduledDateTime = scheduledDateTime;
+        this.recipient = recipient;
+        this.message = message;
+        this.communicationType = communicationType;
+    }
+
     public Schedule(UUID id, LocalDateTime scheduledDateTime, String recipient, String message, CommunicationType communicationType) {
         this.id = id;
         this.scheduledDateTime = scheduledDateTime;
