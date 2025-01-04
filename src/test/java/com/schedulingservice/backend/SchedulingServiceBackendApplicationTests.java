@@ -121,6 +121,26 @@ class SchedulingServiceBackendApplicationTests {
 				.expectStatus().isNotFound();
 	}
 
+	@Sql("/inserts.sql")
+	@Test
+	void testDeleteScheduleSuccess() {
+		webTestClient
+				.delete().uri("/schedules/" + SCHEDULE.getId())
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("$").isArray()
+				.jsonPath("$.length()").isEqualTo(3);
+	}
+
+	@Test
+	void testDeleteScheduleFailure() {
+		UUID nonExistentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174009");
+
+		webTestClient
+				.delete().uri("/schedules/" + nonExistentId)
+				.exchange()
+				.expectStatus().isNotFound();
 	}
 
 }
