@@ -10,10 +10,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/schedules")
+@RequestMapping("/schedulings")
 public class SchedulingController {
 
-    private SchedulingService schedulingService;
+    private final SchedulingService schedulingService;
 
     public SchedulingController(SchedulingService schedulingService) {
         this.schedulingService = schedulingService;
@@ -39,7 +39,7 @@ public class SchedulingController {
         return schedulingService.update(scheduling);
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     List<Scheduling> delete(@PathVariable("id") UUID id) {
         return schedulingService.delete(id);
     }
