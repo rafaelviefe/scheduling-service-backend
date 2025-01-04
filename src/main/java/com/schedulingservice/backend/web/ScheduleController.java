@@ -1,4 +1,4 @@
-package com.schedulingservice.backend.controller;
+package com.schedulingservice.backend.web;
 
 import com.schedulingservice.backend.entity.Schedule;
 import com.schedulingservice.backend.service.ScheduleService;
@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -30,13 +29,13 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
-    Optional<Schedule> get(@PathVariable("id") UUID id) {
+    Schedule get(@PathVariable("id") UUID id) {
         return schedulingService.get(id);
     }
 
-    @PutMapping
-    List<Schedule> update(@RequestBody @Valid Schedule scheduling) {
-        return schedulingService.update(scheduling);
+    @PutMapping("/{id}")
+    List<Schedule> update(@PathVariable UUID id, @RequestBody @Valid Schedule scheduling) {
+        return schedulingService.update(id, scheduling);
     }
 
     @DeleteMapping("/{id}")
