@@ -56,6 +56,30 @@ class SchedulingServiceBackendApplicationTests {
 				.expectStatus().isBadRequest();
 	}
 
+	@Sql("/inserts.sql")
+	@Test
+	void testGetScheduleSuccess() {
+		webTestClient
+				.get().uri("/schedules/" + SCHEDULE.getId())
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("$.id").isEqualTo(SCHEDULE.getId().toString())
+				.jsonPath("$.scheduledDateTime").isEqualTo(SCHEDULE.getScheduledDateTime())
+				.jsonPath("$.recipient").isEqualTo(SCHEDULE.getRecipient())
+				.jsonPath("$.message").isEqualTo(SCHEDULE.getMessage())
+				.jsonPath("$.communicationType").isEqualTo(SCHEDULE.getCommunicationType());
+	}
+
+	@Test
+	void testGetScheduleFailure() {
+		UUID nonExistentId = UUID.fromString("123e4567-e89b-12d3-a456-426613214009");
+
+		webTestClient
+				.get().uri("/schedules/" + nonExistentId)
+				.exchange()
+				.expectStatus().isNotFound();
+	}
 
 	@Test
 	void contextLoads() {
