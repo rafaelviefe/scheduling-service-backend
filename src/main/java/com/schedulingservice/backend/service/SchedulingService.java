@@ -5,6 +5,7 @@ import com.schedulingservice.backend.repository.SchedulingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,9 +26,8 @@ public class SchedulingService {
         return schedulingRepository.findAll();
     }
 
-    public List<Scheduling> get(UUID id) {
-        schedulingRepository.findById(id);
-        return list();
+    public Optional<Scheduling> get(UUID id) {
+        return schedulingRepository.findById(id);
     }
 
     public List<Scheduling> update(Scheduling scheduling) {
