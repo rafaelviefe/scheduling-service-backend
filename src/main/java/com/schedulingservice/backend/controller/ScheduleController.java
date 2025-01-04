@@ -1,7 +1,7 @@
 package com.schedulingservice.backend.controller;
 
-import com.schedulingservice.backend.entity.Scheduling;
-import com.schedulingservice.backend.service.SchedulingService;
+import com.schedulingservice.backend.entity.Schedule;
+import com.schedulingservice.backend.service.ScheduleService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,37 +10,37 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/schedulings")
-public class SchedulingController {
+@RequestMapping("/schedules")
+public class ScheduleController {
 
-    private final SchedulingService schedulingService;
+    private final ScheduleService schedulingService;
 
-    public SchedulingController(SchedulingService schedulingService) {
+    public ScheduleController(ScheduleService schedulingService) {
         this.schedulingService = schedulingService;
     }
 
     @PostMapping
-    List<Scheduling> create(@RequestBody @Valid Scheduling scheduling) {
+    List<Schedule> create(@RequestBody @Valid Schedule scheduling) {
         return schedulingService.create(scheduling);
     }
 
     @GetMapping
-    List<Scheduling> list() {
+    List<Schedule> list() {
         return schedulingService.list();
     }
 
     @GetMapping("/{id}")
-    Optional<Scheduling> get(@PathVariable("id") UUID id) {
+    Optional<Schedule> get(@PathVariable("id") UUID id) {
         return schedulingService.get(id);
     }
 
     @PutMapping
-    List<Scheduling> update(@RequestBody @Valid Scheduling scheduling) {
+    List<Schedule> update(@RequestBody @Valid Schedule scheduling) {
         return schedulingService.update(scheduling);
     }
 
     @DeleteMapping("/{id}")
-    List<Scheduling> delete(@PathVariable("id") UUID id) {
+    List<Schedule> delete(@PathVariable("id") UUID id) {
         return schedulingService.delete(id);
     }
 
